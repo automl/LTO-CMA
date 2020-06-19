@@ -22,3 +22,13 @@ python gps_test.py EXPERIMENT_FOLDER_NAME
   - The average step-size for each step of the optimization trajectory from 25 samples, and 
   - The standard deviation of the objective value and the step-size for each step of the optimization trajectory.
 - To plot the results, run the *plot_performance.py* script in the *scripts* folder.
+## Reference
+``
+@inproceedings{shala-ppsn20,
+  author    = {G.Shala and A. Biedenkapp and N.Awad and S. Adriaensen and and M.Lindauer and F. Hutter},
+  title     = {Learning Step-size Adaptation in CMA-ES},
+  booktitle = {Proceedings of the Sixteenth International Conference on Parallel Problem Solving from Nature ({PPSN}'20)},
+  year = {2020},
+  month     = sep,
+}
+``
