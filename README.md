@@ -25,7 +25,7 @@ python gps_test.py EXPERIMENT_FOLDER_NAME
 ## Reference
 ```
 @inproceedings{shala-ppsn20,
-  author    = {G.Shala and A. Biedenkapp and N.Awad and S. Adriaensen and and M.Lindauer and F. Hutter},
+  author    = {G.Shala and A. Biedenkapp and N.Awad and S. Adriaensen and M.Lindauer and F. Hutter},
   title     = {Learning Step-size Adaptation in CMA-ES},
   booktitle = {Proceedings of the Sixteenth International Conference on Parallel Problem Solving from Nature ({PPSN}'20)},
   year = {2020},
