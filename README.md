@@ -11,7 +11,7 @@ python gps_main.py EXPERIMENT_FOLDER_NAME
 - The output of training is the pickled version of the learned policy, saved in the path *EXPERIMENT_FOLDER_NAME/data_files*.
 ### Testing
 - Add the path to the learned policy in the hyperparameter file *hyperparams.py*
--Start testing the performance of the learned policy on the test set by executing the command:
+- Start testing the performance of the learned policy on the test set by executing the command:
 ```
 python gps_test.py EXPERIMENT_FOLDER_NAME
 ```
