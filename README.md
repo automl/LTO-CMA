@@ -1,7 +1,6 @@
 # LTO-CMA
 Code for the paper "Learning Step-Size Adaptation in CMA-ES"
 ## Experiment Setup
-### TODO
 ### Training
 - Create experiment folder
 - Create file with hyperparameters of the experiment *hyperparams.py* in the experiment folder
