@@ -15,7 +15,7 @@ from gps.utility.display import Display
 from gps.sample.sample_list import SampleList
 from gps.algorithm.policy.tf_policy import TfPolicy
 from gps.algorithm.policy_opt.lto_model import fully_connected_tf_network
-from gps.algorithm.policy.cma_policy import CMAPolicy
+from gps.algorithm.policy.csa_policy import CSAPolicy
 
 class GPSMain(object):
     #""" Main class to run algorithms and experiments. """
@@ -106,7 +106,7 @@ class GPSMain(object):
                 if np.random.rand() < 0.9:
                     pol = self.algorithm.cur[m].traj_distr
                 else:
-                    pol = CMAPolicy(T=self.agent.T)
+                    pol = CSAPolicy(T=self.agent.T)
 
 
         self.agent.sample(pol, cond, t_length=t_length)

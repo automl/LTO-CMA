@@ -3,7 +3,7 @@ import copy
 import numpy as np
 import scipy as sp
 from gps.algorithm.policy.config import INIT_LG
-from gps.algorithm.policy.cma_policy import CMAPolicy
+from gps.algorithm.policy.csa_policy import CSAPolicy
 from gps.algorithm.policy.lin_gauss_policy import LinearGaussianPolicy
 from gps.agent.lto.cmaes_world import CMAESWorld
 
@@ -37,7 +37,7 @@ def init_cmaes_controller(hyperparams, agent):
     action_var = []
     for i in range(25):
             f_values=[]
-            cur_policy = CMAPolicy(T=T)
+            cur_policy = CSAPolicy(T=T)
 
             world.reset_world()
             world.run()

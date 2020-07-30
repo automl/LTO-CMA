@@ -3,7 +3,7 @@ import numpy as np
 from cma.sigma_adaptation import CMAAdaptSigmaCSA
 from gps.algorithm.policy.policy import Policy
 
-class CMAPolicy(Policy):
+class CSAPolicy(Policy):
     """
     Time-varying linear Gaussian policy.
     U = CSA(sigma, ps, chiN)+ noise, where noise ~ N(0, chol_pol_covar)
