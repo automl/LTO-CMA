@@ -23,7 +23,7 @@ line: [iclr.cc](iclr.cc)
   |  |  |-policy_opt # code for policy optimization
   |  |  |-dynamics # code for handling the dynamics
 ```
-This *gps* directory contains the code to run LTO-CMA. The above file tree contains a tree of the directories it consists of, and short descriptions of the code they contain. The code in the directory is under a *GNU GENERAL PUBLIC LICENSE v3*, except the files mentioned in the Modifications section, which are under an *APACHE v2* license.
+This *gps* directory contains the code to run LTO-CMA. The above file tree contains a tree of the directories it consists of, and short descriptions of the code they contain. The code in the directory is under a *GNU GENERAL PUBLIC LICENSE v3*, except the specific files mentioned in the Modifications section, which are under an *APACHE v2* license.
 
 #### Modifications to GPS code
 In order to implement our approach, we have made modifications to the GPS code provided by Li and Malik. Below is the file tree depicting the list of files that have been either added or modified. Newly created files fall under Apache 2.0 whereas modified files keep their GPLv3 license
