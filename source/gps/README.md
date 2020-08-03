@@ -22,19 +22,17 @@ line: [iclr.cc](iclr.cc)
   |  |  |-policy_opt # code for policy optimization
   |  |  |-dynamics # code for handling the dynamics
 ```
-The *gps* directory contains the code to run LTO-CMA. The above file tree contains a tree of the directories it consists of, and short descriptions of the code they contain. The code in the directory is under a *GNU GENERAL PUBLIC LICENCE v3*, except the files mentioned in the Modifications section, which are under an *APACHE v2* licence.
+The *gps* directory contains the code to run LTO-CMA. The above file tree contains a tree of the directories it consists of, and short descriptions of the code they contain. The code in the directory is under a *GNU GENERAL PUBLIC LICENSE v3*, except the files mentioned in the Modifications section, which are under an *APACHE v2* license.
 #### Modifications to GPS code
 In order to implement our approach, we have made modifications to the GPS code. Below is the file tree depicting the list of files that have been either added or modified.
 ```bash
   |-gps
   |  |-agent
   |  |  |-lto
-  |  |  |  |-agent_cmaes.py
-  |  |  |  |-cmaes_world.py
-  |  |-utility
-  |  |  |-display.py
+  |  |  |  |-agent_cmaes.py (under Apache 2.0 license)
+  |  |  |  |-cmaes_world.py (under Apache 2.0 license)
   |  |-proto
   |  |-algorithm
   |  |  |-policy
-  |  |  |  |- csa_policy.py
+  |  |  |  |- csa_policy.py (under Apache 2.0 license)
 ```
