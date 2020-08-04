@@ -1,5 +1,13 @@
 # LTO-CMA
 Code for the paper "Learning Step-Size Adaptation in CMA-ES"
+## License
+Our work is available under Apache-2.0. In order to learn step-size adaptation in CMA-ES we use guided policy search (GPS).
+We built upon the GPS version as given by Li and Malik. The original GPS code of Li and Malik can be found at https://www.math.ias.edu/~ke.li/downloads/lto_code.tar.gz
+
+In a nutshell, we modified the GPS code to be able to continuously sample from the starting teacher. To this end we introduce a sampling rate that determines how often we use new samples generated from the starting policy.
+
+The original code falls under GPLv3. In *source/gps* we list files that we modifed (thereby fall under GPLv3) and those that are of our creation (i.e. under Apache-2.0)
+
 ## Experiment Setup
 ### Training
 - Create experiment folder
