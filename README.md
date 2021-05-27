@@ -14,7 +14,7 @@ The original code falls under GPLv3. In *source/gps* we list files that we modif
 - Create file with hyperparameters of the experiment *hyperparams.py* in the experiment folder
 - Start learning step-size adaptation by executing the command:
 ```
-python gps_main.py EXPERIMENT_FOLDER_NAME
+python gps_train.py EXPERIMENT_FOLDER_NAME
 ```
 - The output of training is the pickled version of the learned policy, saved in the path *EXPERIMENT_FOLDER_NAME/data_files*.
 ### Testing
@@ -23,7 +23,7 @@ python gps_main.py EXPERIMENT_FOLDER_NAME
 ```
 python gps_test.py EXPERIMENT_FOLDER_NAME
 ```
-- The output of testing are the files *test_data_X.json* for each condition index X of the test set, saved in the experiment folder.
+- The output of testing are the files *log_data_test_X.json* for the function name of each condition X of the test set, saved in the experiment folder.
 - The output file *test_data_X.json* contains:
   - The average objective values from 25 samples of running the learned policy on the test condition X,
   - The end objective values of the 25 samples,

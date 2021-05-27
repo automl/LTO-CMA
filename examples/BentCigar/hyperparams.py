@@ -38,12 +38,12 @@ input_dim = 10
 num_inits_per_fcn = 1
 init_locs = []
 if TRAIN:
-    num_fcns = 100
+    num_fcns = 20
     train_fcns = range(num_fcns)
-    test_fcns = range(num_fcns-10, num_fcns)
-    fcn_ids = [12, 11, 2, 23, 15, 8, 17, 20, 1, 16]
-    fcn_names = ["BentCigar", "Discus", "Ellipsoid", "Katsuura", "Rastrigin", "Rosenbrock", "Schaffers", "Schwefel", "Sphere", "Weierstrass"]
-    init_sigma_test = [1.28, 0.38, 1.54, 1.18, 0.1, 1.66, 0.33, 0.1, 1.63, 0.1]
+    test_fcns = range(num_fcns-1, num_fcns)
+    fcn_ids = [12]
+    fcn_names = ["BentCigar"]
+    init_sigma_test = [1.28]
     #initialize the initial locations of the optimization trajectories
     init_locs.extend(list(np.random.randn(num_fcns-len(test_fcns), input_dim)))
     #initialize the initial sigma(step size) values
@@ -54,15 +54,13 @@ if TRAIN:
         init_locs.append([0]*input_dim)
     
 else:
-    num_fcns = 12
+    num_fcns = 1
     # We don't do any training so we evaluate on all the conditions in the 'training set'
     train_fcns = range(num_fcns)
     test_fcns = train_fcns
-    fcn_ids = [6, 4, 19, 14, 5, 13, 7, 9, 18, 24, 21, 22]
-    fcn_names = ["AttractiveSector", "BuecheRastrigin", "CompositeGR", "DifferentPowers", "LinearSlope",
-                 "SharpRidge", "StepEllipsoidal", "RosenbrockRotated", "SchaffersIllConditioned",
-                 "LunacekBiR", "GG101me", "GG21hi"]
-    init_sigmas = [0.5]*len(test_fcns)
+    fcn_ids = [12]
+    fcn_names = ["BentCigar"]
+    init_sigmas = [1.28]*len(test_fcns)
     for i in test_fcns:
         init_locs.append([0]*input_dim)
 
@@ -89,7 +87,7 @@ SENSOR_DIMS = {
 }
 
 BASE_DIR = '/'.join(str.split(gps_filepath, '/')[:-2])
-EXP_DIR = BASE_DIR + '/../examples/10BBOB' + '/'
+EXP_DIR = BASE_DIR + '/../examples/BentCigar' + '/'
 
 
 common = {
@@ -132,7 +130,7 @@ algorithm = {
     'train_conditions': train_fcns,
     'test_conditions': test_fcns,
     'test_functions': fcn_names,
-    'iterations': 15, # must be > 1
+    'iterations': 15,
     'inner_iterations': 4,
     'policy_dual_rate': 0.2,
     'init_pol_wt': 0.01,

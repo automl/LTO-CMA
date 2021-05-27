@@ -41,6 +41,7 @@ class GPSMain(object):
         self.policy_path = config['policy_path']
         self.network_config = config['algorithm']['policy_opt']['network_params']
         self.agent = config['agent']['type'](config['agent'])
+        config['common']['log_filename'] += '_test'
         self.disp = Display(config['common'])     # For logging
 
         config['algorithm']['agent'] = self.agent
@@ -124,11 +125,11 @@ def main():
     args = parser.parse_args()
 
     exp_name = args.experiment
-
+    
     from gps import __file__ as gps_filepath
     gps_filepath = os.path.abspath(gps_filepath)
     gps_dir = '/'.join(str.split(gps_filepath, '/')[:-3]) + '/'
-    exp_dir = gps_dir + 'experiments/' + exp_name + '/'
+    exp_dir = gps_dir + 'examples/' + exp_name + '/'
     hyperparams_file = exp_dir + 'hyperparams.py'
 
     logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
@@ -136,17 +137,18 @@ def main():
     if not os.path.exists(hyperparams_file):
         sys.exit("Experiment '%s' does not exist.\nDid you create '%s'?" % (exp_name, hyperparams_file))
 
+    
     # May be used by hyperparams.py to load different conditions
     gps_globals.phase = "TRAIN"
     hyperparams = imp.load_source('hyperparams', hyperparams_file)
-
+    
     seed = hyperparams.config.get('random_seed', 0)
     random.seed(seed)
     np.random.seed(seed)
 
     gps = GPSMain(hyperparams.config)
     gps.run()
-    print("Done with sampling")
+    
     if 'on_exit' in hyperparams.config:
         hyperparams.config['on_exit'](hyperparams.config)
 

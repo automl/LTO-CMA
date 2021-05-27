@@ -41,6 +41,7 @@ class CMAESWorld(object):
         self.es = CMAEvolutionStrategy(self.cur_loc, self.init_sigma, {'popsize': self.init_popsize, 'bounds': self.bounds})
         self.solutions, self.func_values = self.es.ask_and_eval(self.fcn)
         self.fbest = self.func_values[np.argmin(self.func_values)]
+        self.cur_obj_val = self.fbest
         self.f_difference = np.abs(np.amax(self.func_values) - self.cur_obj_val)/float(self.cur_obj_val)
         self.velocity = np.abs(np.amin(self.func_values) - self.cur_obj_val)/float(self.cur_obj_val)
         self.es.mean_old = self.es.mean

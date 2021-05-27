@@ -7,7 +7,7 @@ sns.set()
 
 from matplotlib import rcParams
 rcParams["font.size"] = "30"
-rcParams['text.usetex'] = True
+rcParams['text.usetex'] = False
 rcParams['font.family'] = 'serif'
 rcParams['figure.figsize'] = (16.0, 9.0)
 rcParams['figure.frameon'] = True
@@ -100,7 +100,7 @@ class Display(object):
 
         return ps, past_sigma, past_obj_val_deltas, past_loc_deltas
 
-    def _update_iteration_data(self, algorithm, test_idx, test_fcns, pol_sample_lists, traj_sample_lists):
+    def _update_iteration_data(self, algorithm, test_idx, test_fcns, pol_sample_lists, traj_sample_lists, iteration=15):
         """
         Update iteration data information: iteration, average cost, and for
         each condition the mean cost over samples, step size, linear Guassian
@@ -128,7 +128,7 @@ class Display(object):
             #itr_data = '%s%d' % ('Sample_', i)
             #self.append_output_text(itr_data)
             pol_avg_cost, pol_std, traj_avg_cost, traj_std, pol_avg_sigma, pol_sigma_std, traj_avg_sigma, traj_sigma_std, end_values = self.get_data(pol_sample_lists[m], traj_sample_lists[m], idx)
-            self.plot_data(pol_sample_lists[m][0], traj_sample_lists[m][0], test_fcn, pol_avg_cost, traj_avg_cost, pol_avg_sigma, traj_avg_sigma, pol_std, traj_std, pol_sigma_std, traj_sigma_std, end_values)
+            self.plot_data(pol_sample_lists[m][0], traj_sample_lists[m][0], test_fcn, pol_avg_cost, traj_avg_cost, pol_avg_sigma, traj_avg_sigma, pol_std, traj_std, pol_sigma_std, traj_sigma_std, end_values, iteration=iteration)
 
             #data[function_str][sample_] = {'obj_values': list(obj_val)}
                 #itr_data = '%s : %s ' % ('cur_loc', x)
@@ -154,19 +154,19 @@ class Display(object):
             end_values.append(p_obj_val[-1])
         return np.mean(pol_avg_obj, axis=0), np.std(pol_avg_obj, axis=0), np.mean(traj_avg_obj, axis=0), np.std(traj_avg_obj, axis=0), np.mean(pol_avg_sigma, axis=0), np.std(pol_avg_sigma, axis=0), np.mean(traj_avg_sigma, axis=0), np.std(traj_avg_sigma, axis=0), end_values
 
-    def plot_data(self, pol_sample, traj_sample, cur_cond, pol_costs, traj_costs, pol_sigma, traj_sigma, pol_std, traj_std, pol_sigma_std, traj_sigma_std, end_values):
+    def plot_data(self, pol_sample, traj_sample, cur_cond, pol_costs, traj_costs, pol_sigma, traj_sigma, pol_std, traj_std, pol_sigma_std, traj_sigma_std, end_values, iteration=15):
         #pol_ps, pol_past_sigma, pol_past_obj_val_deltas, pol_past_loc_deltas = self.get_sample_data(pol_sample,cur_cond)
         #traj_ps, traj_past_sigma, traj_past_obj_val_deltas, traj_past_loc_deltas = self.get_sample_data(traj_sample, cur_cond)
         log_text = {}
         log_text['Average costs LTO'] = list(pol_costs)
-        log_text['Average costs CSA'] = list(traj_costs)
+        log_text['Average costs controller'] = list(traj_costs)
         log_text['End values LTO'] = list(end_values)
         log_text['Sigma LTO'] = list(pol_sigma)
-        log_text['Sigma CSA'] = list(traj_sigma)
+        log_text['Sigma controller'] = list(traj_sigma)
         log_text['Std costs LTO'] = list(pol_std)
-        log_text['Std costs CSA'] = list(traj_std)
+        log_text['Std costs controller'] = list(traj_std)
         log_text['Std Sigma LTO'] = list(pol_sigma_std)
-        log_text['Std Sigma CSA'] = list(traj_sigma_std)
+        log_text['Std Sigma controller'] = list(traj_sigma_std)
 
 #        log_text += 'Ps LTO: %s \n' % (pol_ps)
 #        log_text += 'Ps CSA: %s \n' % (traj_ps)
@@ -176,9 +176,7 @@ class Display(object):
 #        log_text += 'Past Obj Val Deltas CSA: %s \n' % (traj_past_obj_val_deltas)
 #        log_text += 'Past Loc Deltas LTO: %s \n' % (pol_past_loc_deltas)
 #        log_text += 'Past Loc Deltas CSA: %s \n' % (traj_past_loc_deltas)
-        self.append_output_text(log_text)
-        methods = ["rlbbo", "csa"]
-        labels = ["RLBBO", "CSA"]
+        self.append_output_text(log_text, iteration, fcn_name=cur_cond)
 
         plt.tick_params(axis='x', which='minor')
         plt.legend(loc=0, fontsize=25, ncol=2)
@@ -187,10 +185,10 @@ class Display(object):
         plt.ylabel("objective value", fontsize=50)
         plt.fill_between(list(range(len(pol_costs))), np.subtract(pol_costs,pol_std), np.add(pol_costs,pol_std), color=sns.xkcd_rgb["medium green"], alpha=0.5)
         plt.plot(pol_costs,color=sns.xkcd_rgb["medium green"],
-             linewidth=4, label='RLBBO')
+             linewidth=4, label='LTO')
         plt.fill_between(list(range(len(traj_costs))),np.subtract(traj_costs,traj_std), np.add(traj_costs,traj_std), color=sns.xkcd_rgb["denim blue"], alpha=0.5)
         plt.plot(traj_costs,color=sns.xkcd_rgb["denim blue"],
-             linewidth=4, label='CSA')
+             linewidth=4, label='LG Controller')
         plt.legend()
         timestamp = datetime.now()
         time = str(timestamp)
@@ -207,10 +205,10 @@ class Display(object):
         plt.ylabel("Step size", fontsize=50)
         plt.fill_between(list(range(len(pol_sigma))),np.subtract(pol_sigma,pol_sigma_std), np.add(pol_sigma,pol_sigma_std), color=sns.xkcd_rgb["medium green"], alpha=0.5)
         plt.plot(pol_sigma, color=sns.xkcd_rgb["medium green"],
-             linewidth=4, label='RLBBO')
+             linewidth=4, label='LTO')
         plt.fill_between(list(range(len(traj_sigma))),np.subtract(traj_sigma,traj_sigma_std), np.add(traj_sigma,traj_sigma_std), color=sns.xkcd_rgb["denim blue"], alpha=0.5)
         plt.plot(traj_sigma,color=sns.xkcd_rgb["denim blue"],
-             linewidth=4, label='CSA')
+             linewidth=4, label='LG Controller')
         plt.legend()
         timestamp = datetime.now()
         time = str(timestamp)
@@ -221,19 +219,21 @@ class Display(object):
         plt.clf()
 
 
-    def update(self, algorithm, agent, test_fcns, cond_idx_list, pol_sample_lists, traj_sample_lists):
+    def update(self, algorithm, agent, test_fcns, cond_idx_list, pol_sample_lists, traj_sample_lists, iteration=15):
 
         if self._first_update:
             #self._output_column_titles(algorithm)
             self._first_update = False
         #costs = [np.mean(np.sum(algorithm.prev[m].cs, axis=1)) for m in range(algorithm.M)]
-        pol_costs = self._update_iteration_data(algorithm, test_fcns, cond_idx_list, pol_sample_lists, traj_sample_lists)
+        pol_costs = self._update_iteration_data(algorithm, test_fcns, cond_idx_list, pol_sample_lists, traj_sample_lists, iteration=iteration)
 
         return pol_costs
 
-    def append_output_text(self, text):
-        with open(self._log_filename, 'a') as f:
+    def append_output_text(self, text, iteration=15, fcn_name=""):
+        log_file = '%s_iteration%s_%s.json'  % (self._log_filename, iteration, fcn_name)
+        with open(log_file, 'a') as f:
             #f.write('%s \n' % (str(text)))
             json.dump(text, f)
+            f.write('\n')
         #print(text)
 

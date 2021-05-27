@@ -66,7 +66,7 @@ class GPSMain(object):
 
             #self._prev_traj_costs, self._prev_pol_costs = self.disp.update(itr,                                                                                                                                                             self.algorithm, self.agent, traj_sample_lists, pol_sample_lists)
             self.algorithm.policy_opt.policy.pickle_policy(self.algorithm.policy_opt._dO, self.algorithm.policy_opt._dU, self._data_files_dir + ('policy_itr_%02d' % itr))
-            self._test_peformance(t_length=50)
+            self._test_peformance(t_length=50, iteration=itr)
         #self.algorithm.policy_opt.policy = TfPolicy.load_policy(policy_dict_path=self.policy_path, tf_generator=fully_connected_tf_network, network_config=self.network_config)
         self._test_peformance(t_length=50)
 
@@ -86,14 +86,14 @@ class GPSMain(object):
         self.disp.update(self.algorithm, self.agent,self._test_idx, self._test_fncs, pol_sample_lists, traj_sample_lists)
 
 
-    def _test_peformance(self, guided_steps=0, t_length=50):
+    def _test_peformance(self, guided_steps=0, t_length=50, iteration=15):
         pol_sample_lists = self._take_policy_samples(self._test_idx, guided_steps=guided_steps,t_length=t_length)
         for m, cond in enumerate(self._test_idx):
             for i in range(self._hyperparams['num_samples']):
                 self._take_sample(11, cond, m, i, t_length=t_length)
         traj_sample_lists = [self.agent.get_samples(cond, -self._hyperparams['num_samples']) for cond in self._test_idx]
         self.agent.clear_samples()
-        self.disp.update(self.algorithm, self.agent,self._test_idx, self._test_fncs, pol_sample_lists, traj_sample_lists)
+        self.disp.update(self.algorithm, self.agent,self._test_idx, self._test_fncs, pol_sample_lists, traj_sample_lists, iteration=iteration)
 
     def _take_sample(self, itr, cond, m, i, t_length=50):
 
@@ -103,7 +103,7 @@ class GPSMain(object):
             if self.algorithm._hyperparams['sample_on_policy']:
                 pol = self.algorithm.policy_opt.policy
             else:
-                if np.random.rand() < 0.9:
+                if np.random.rand() < 0.7:
                     pol = self.algorithm.cur[m].traj_distr
                 else:
                     pol = CSAPolicy(T=self.agent.T)
@@ -128,7 +128,7 @@ def main():
     from gps import __file__ as gps_filepath
     gps_filepath = os.path.abspath(gps_filepath)
     gps_dir = '/'.join(str.split(gps_filepath, '/')[:-3]) + '/'
-    exp_dir = gps_dir + 'experiments/' + exp_name + '/'
+    exp_dir = gps_dir + 'examples/' + exp_name + '/'
     hyperparams_file = exp_dir + 'hyperparams.py'
 
     logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
